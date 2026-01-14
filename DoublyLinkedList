@@ -1,0 +1,57 @@
+
+public class DoublyLinkedList<T> {
+	private static class Node<T>{
+		public T element;Node<T> prev; Node<T> next;
+		public Node(T e,Node<T> p,Node<T> n) {
+			element=e;prev=p;next=n;
+		}
+	}public Node<T> header;Node<T> trailer;
+	public DoublyLinkedList() {
+		header=new Node<>(null,null,null);
+		trailer=new Node<>(null,null,null);
+		header.next=trailer;trailer.prev=header;}
+	public void append(T data) {
+		Node<T> nod=new Node<>(data,null,trailer);
+		nod.prev=trailer.prev;
+ 		trailer.prev.next=nod;
+ 		trailer.prev=nod;
+	}
+	public void delete(T data) {
+		Node<T> current=header;
+ 		while(current.element!=data) {
+ 			current=current.next;
+ 		}
+ 		current.next.prev=current.prev;
+ 		current.prev.next=current.next;
+	}
+	public void display() {
+		System.out.print("header <-> ");
+		Node<T> current=header.next;
+		while(current.element!=null) {
+			System.out.print(current.element+" <-> ");
+			current=current.next;}
+		System.out.println("trailer");
+	}
+	public static void main(String[] args) {
+		DoublyLinkedList<String> strDLL= new DoublyLinkedList<>();
+		strDLL.append("hello");
+		strDLL.append("from");
+		strDLL.append("the earth");
+		strDLL.display();
+		strDLL.delete("from");
+		strDLL.display();
+		DoublyLinkedList<Integer> intDLL= new DoublyLinkedList<>();
+		intDLL.append(4);
+		intDLL.append(8);
+		intDLL.append(15);
+		intDLL.append(16);
+		intDLL.display();
+		intDLL.delete(8);
+		intDLL.display();
+
+	}
+// Worst case of append() function is trying to add element at the and without knowing where is the end of list. But we add element at the end and we know where the trailer is.
+// with time complexity of O(1).
+// Worst case of delete() function is O(n) when the element is at the en of the list and we should traverse whole list to find its location.
+// Worst case of display() function is O(n). Because we print all element in that list.
+}
